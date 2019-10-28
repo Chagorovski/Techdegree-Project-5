@@ -48,37 +48,6 @@ async function getRandomPeople (url) {
 };
 
 
-// Function to generate the modal window
-
-function generateModalHTML (data) {
-    const modalContainer = document.createElement('div');
-    modalContainer.className = 'modal-container';
-    body.appendChild(modalContainer);
-    modalContainer.innerHTML = `
-
-    <div class="modal">
-      <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-      <div class="modal-info-container">
-          <img class="modal-img" src="${data.randomImg}" alt="profile picture">
-          <h3 id="name" class="modal-name cap">${data.first} ${data.last}</h3>
-          <p class="modal-text">${data.randomEmail}</p>
-          <p class="modal-text cap">${data.randomCity}</p>
-          <hr>
-          <p class="modal-text">${data.randomCell}</p>
-          <p class="modal-text">${data.randomStreet.name}  ${data.randomStreet.number}, ${data.randomState}, ${data.randomPostCode}</p>
-          <p class="modal-text">Birthday:${getDate(data.randomDate)}</p>
-      </div>
-    </div>`;
-
-  // Add the prev nad next buttons
-    createModalButtons(modalContainer);
-  // Added eventListener to close the modal window
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    modalCloseBtn.addEventListener('click', () => {
-      body.removeChild(modalContainer);
-    });
-};
-
 // Function to generate the main page HTML
 
 function generateHTML (data) {
@@ -105,6 +74,38 @@ function generateHTML (data) {
             }
         });   
     });
+};
+
+
+// Function to generate the modal window
+
+function generateModalHTML (data) {
+  const modalContainer = document.createElement('div');
+  modalContainer.className = 'modal-container';
+  body.appendChild(modalContainer);
+  modalContainer.innerHTML = `
+
+  <div class="modal">
+    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+    <div class="modal-info-container">
+        <img class="modal-img" src="${data.randomImg}" alt="profile picture">
+        <h3 id="name" class="modal-name cap">${data.first} ${data.last}</h3>
+        <p class="modal-text">${data.randomEmail}</p>
+        <p class="modal-text cap">${data.randomCity}</p>
+        <hr>
+        <p class="modal-text">${data.randomCell}</p>
+        <p class="modal-text">${data.randomStreet.name}  ${data.randomStreet.number}, ${data.randomState}, ${data.randomPostCode}</p>
+        <p class="modal-text">Birthday:${getDate(data.randomDate)}</p>
+    </div>
+  </div>`;
+
+// Add the prev nad next buttons
+  createModalButtons(modalContainer);
+// Added eventListener to close the modal window
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  modalCloseBtn.addEventListener('click', () => {
+    body.removeChild(modalContainer);
+  });
 };
 
 
