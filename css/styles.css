@@ -132,6 +132,10 @@ header h1 {
     left: 0;
     background: rgba(0, 0, 0, 0.7);
 }
+/* added color to the modal paragprah */
+.modal p {
+    color : purple;
+}
 
 .modal {
     position: relative;
@@ -140,9 +144,12 @@ header h1 {
     min-height: 415px;
     margin: 10px auto auto;
     padding-bottom: 15px;
-    background: rgba(255, 255, 255, 1);
+    font-style: italic;
+    background: rgb(165, 169, 227);
     border-radius: 0.25em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
+    /* added box shadow */
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.5), 0 7px 20px 0 rgba(0, 0, 0, 0.30); 
+    border: 1px solid rgba(100, 100, 100, 0.226);
     transition: .4s ease-out;
 }
 
@@ -188,9 +195,9 @@ header h1 {
     max-width: 420px;
     padding: 10px 15px 15px;;
     margin: 10px auto auto;
-    background: rgba(255, 255, 255, 1);
+    background:rgb(165, 169, 227);
     border-radius: 0.25em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
+    /* border: 1px solid rgba(100, 100, 100, 0.3); */
 }
 
 
