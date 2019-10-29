@@ -1,3 +1,8 @@
+/******************************************
+Treehouse Techdegree:
+FSJS project 5 - Public API Request
+******************************************/
+
 
 // Global variables
 
@@ -5,7 +10,8 @@ const galeryUrl = 'https://randomuser.me/api/?results=12&nat=us';
 const gallery = document.getElementById('gallery');
 const body = document.getElementsByTagName('body')[0];
 const name = document.getElementById('name');
-// const modalProfiles = [];
+// empty array to store the data from each random person
+const modalProfiles = [];
 
 // Function to parse the url
 
@@ -43,7 +49,7 @@ async function getRandomPeople (url) {
                    randomPostCode,
                    randomStreet };
     });
-    // modalProfiles.push(Promise.all(profiles));
+    
     return Promise.all(profiles);
 };
 
@@ -66,7 +72,9 @@ function generateHTML (data) {
            <p class="card-text cap">${person.randomCity}, ${person.randomState}</p>
         </div> `;
 
-        
+      // pushing profiles into array
+        modalProfiles.push(person)
+
       // Added eventListener for the modal window
         cardDiv.addEventListener('click',function (e) {
             if (cardDiv.name === e.target.name) {
@@ -77,7 +85,7 @@ function generateHTML (data) {
 };
 
 
-// Function to generate the modal window
+// Function to generate the modal window and adding functionality to the prev/next buttons
 
 function generateModalHTML (data) {
   const modalContainer = document.createElement('div');
@@ -96,16 +104,48 @@ function generateModalHTML (data) {
         <p class="modal-text">${data.randomCell}</p>
         <p class="modal-text">${data.randomStreet.name}  ${data.randomStreet.number}, ${data.randomState}, ${data.randomPostCode}</p>
         <p class="modal-text">Birthday:${getDate(data.randomDate)}</p>
+
+        <div class="modal-btn-container">
+          <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+          <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
     </div>
   </div>`;
 
-// Add the prev nad next buttons
-  createModalButtons(modalContainer);
 // Added eventListener to close the modal window
   const modalCloseBtn = document.getElementById('modal-close-btn');
   modalCloseBtn.addEventListener('click', () => {
-    body.removeChild(modalContainer);
+    removeChildElement(body,modalContainer);
   });
+
+  // Added eventListeners for prev/next buttons
+  // prev button
+  const prev = document.querySelector('#modal-prev');
+  prev.addEventListener('click', () => {
+    var person = modalProfiles.indexOf(data)
+
+    if (person === 0) {
+      removeChildElement(body,modalContainer);
+      generateModalHTML(modalProfiles[person]);
+    } else {
+      removeChildElement(body,modalContainer);
+      generateModalHTML(modalProfiles[person - 1]);
+    }
+  })
+
+  // next button
+  const next = document.querySelector('#modal-next');
+  next.addEventListener('click', () => {
+    var person = modalProfiles.indexOf(data)
+
+    if (person === 11) {
+      removeChildElement(body,modalContainer);
+      generateModalHTML(modalProfiles[person]);
+    } else {
+      removeChildElement(body,modalContainer);
+      generateModalHTML(modalProfiles[person + 1]);
+    }
+  })
 };
 
 
@@ -125,21 +165,48 @@ function getDate (date) {
   return dateString;
 };
 
-// Function to create the modal prev/next buttons
+// Function for adding the search field
 
-function createModalButtons (parent) {
-  const modalBtnConainer = document.createElement('div');
-  modalBtnConainer.classList = 'modal-btn-container';
-  parent.appendChild(modalBtnConainer);
-  modalBtnConainer.innerHTML = `
-    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-    <button type="button" id="modal-next" class="modal-next btn">Next</button>
+function serchField () {
+  const searchContainer = document.querySelector('.search-container');
+  const form = document.createElement('form');
+  form.setAttribute('action', '#');
+  form.setAttribute('method', 'get');
+  searchContainer.appendChild(form);
+  searchContainer.innerHTML = `
+    <input type="search" id="search-input" class="search-input" placeholder="Search...">
+    <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
   `;
+
+  const searchBtn = document.querySelector('#search-submit');
+  searchBtn.addEventListener('click', searchUser);
+
+  const serachInputField = document.querySelector('#search-input');
+  serachInputField.addEventListener('keyup', searchUser);
 }
 
-/************
- * Events
-************/
+// Function to check for search input
+
+function searchUser(){
+  const searchInput = document.querySelector('#search-input').value;
+  const allUsers = document.querySelectorAll('.card h3');
+  const userContainer = document.querySelectorAll('.card');
+
+  for( let i = 0; i < allUsers.length; i++){
+      if(allUsers[i].textContent.toLowerCase().includes(searchInput.toLowerCase())){
+        userContainer[i].style.display = 'flex';
+      }
+      else if (searchInput !== ''){
+        userContainer[i].style.display = 'none';
+      }
+  }
+} 
+
+// Function to remove child-element
+
+function removeChildElement (parent,child) {
+  parent.removeChild(child);
+}
 
 // Show the profiles when the page loads
 
@@ -147,3 +214,6 @@ window.onload = () => {
     getRandomPeople(galeryUrl)
         .then(generateHTML);  
 };
+  
+// Adds the search input field
+serchField ()
