@@ -1,7 +1,7 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 5 - Public API Request
-******************************************/
+/*************************************
+  Treehouse Techdegree:
+  FSJS project 5 - Public API Request
+**************************************/
 
 
 // Global variables
@@ -13,7 +13,7 @@ const name = document.getElementById('name');
 // empty array to store the data from each random person
 const modalProfiles = [];
 
-// Function to parse the url
+// Async Function to parse the url
 
 async function getJSON (url) {
     try {
@@ -24,7 +24,7 @@ async function getJSON (url) {
     }
   };
 
-// Function to extract the random people
+// Async Function to extract the random people
 
 async function getRandomPeople (url) {
     const randomPeopleJSON = await getJSON(url);
@@ -202,14 +202,16 @@ function searchUser(){
   }
 } 
 
-// Function to remove child-element
+/*********************
+ *  HELPER FUNCTIONS
+*********************/
 
+// Function to remove child-element
 function removeChildElement (parent,child) {
   parent.removeChild(child);
 }
 
 // Show the profiles when the page loads
-
 window.onload = () => {
     getRandomPeople(galeryUrl)
         .then(generateHTML);  
